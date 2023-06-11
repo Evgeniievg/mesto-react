@@ -10,7 +10,7 @@ function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
-  const [selectedCard, setselectedCard] = useState(false);
+  const [selectedCard, setselectedCard] = useState(null);
 
 
   function handleCardClick(card) {
@@ -35,7 +35,7 @@ function App() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setEditAvatarPopupOpen(false);
-    setselectedCard(false)
+    setselectedCard(null)
   };
 
   return (
@@ -43,20 +43,61 @@ function App() {
 
   <div className="page">
 
-  <PopupWithForm name="edit" title="Редактировать профиль" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
-        <input type="text" placeholder="Имя" id="name-input" className="popup-edit__input popup-edit__input_type_title popup__input popup__input_type_title" name="name" required minLength="2" maxLength="40" />
+  <PopupWithForm
+    name="edit"
+    title="Редактировать профиль"
+    isOpen={isEditProfilePopupOpen}
+    onClose={closeAllPopups}>
+        <input
+          type="text"
+          placeholder="Имя"
+          id="name-input"
+          className="popup-edit__input popup-edit__input_type_title popup__input popup__input_type_title"
+          name="name"
+          required minLength="2"
+          maxLength="40" />
         <span className="popup__input-error name-input-error"></span>
-        <input type="text" placeholder="О себе" id="about-input" className="popup-edit__input popup-edit__input_type_about popup__input popup__input_type_about" name="about" required minLength="2" maxLength="200" />
+        <input
+          type="text"
+          placeholder="О себе"
+          id="about-input"
+          className="popup-edit__input popup-edit__input_type_about popup__input popup__input_type_about"
+          name="about"
+          required minLength="2"
+          maxLength="200" />
         <span className="popup__input-error about-input-error"></span>
       </PopupWithForm>
-  <PopupWithForm name="element" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
-        <input type="text" id="title-input" className="popup-element__input popup-element__input_type_title popup__input popup__input_type_title" name="name" placeholder="Название" required minLength="2" maxLength="30" />
+  <PopupWithForm
+    name="element"
+    title="Новое место"
+    isOpen={isAddPlacePopupOpen}
+    onClose={closeAllPopups}>
+        <input
+          type="text"
+          id="title-input"
+          className="popup-element__input popup-element__input_type_title popup__input popup__input_type_title"
+          name="name"
+          placeholder="Название"
+          required minLength="2"
+          maxLength="30" />
         <span className="popup__input-error name-input-error"></span>
-        <input id="link-input" className="popup-element__input popup-element__input_type_description popup__input popup__input_type_description" name="link" placeholder="Ссылка на картинку" required type="url" />
+        <input
+          id="link-input"
+          className="popup-element__input popup-element__input_type_description popup__input popup__input_type_description"
+          name="link" placeholder="Ссылка на картинку"
+          required type="url" />
         <span className="popup__input-error link-input-error"></span>
   </PopupWithForm>
-  <PopupWithForm name="avatar" title="Обновить аватар" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
-          <input placeholder="Ссылка на картинку" name="link" required type="url" className="popup__input popup-avatar__input" />
+  <PopupWithForm
+    name="avatar"
+    title="Обновить аватар"
+    isOpen={isEditAvatarPopupOpen}
+    onClose={closeAllPopups}>
+          <input
+            placeholder="Ссылка на картинку"
+            name="link"
+            required type="url"
+            className="popup__input popup-avatar__input" />
           <span className="popup__input-error link-input-error"></span>
   </PopupWithForm>
 
@@ -83,19 +124,17 @@ function App() {
 
     </div>
   </div>
-  <template id="element">
-    <div className="element">
-      <button className="element__delete" type="button" aria-label="Удалить"></button>
-      <img className="element__image" />
-      <div className="element__text-container">
-        <h2 className="element__title"></h2>
-        <div className="element__like-container">
-          <button className="element__like" aria-label="Лайк" type="button"></button>
-          <p className="element__like-count"></p>
-        </div>
+  <div className="element">
+    <button className="element__delete" type="button" aria-label="Удалить"></button>
+    <img className="element__image" />
+    <div className="element__text-container">
+      <h2 className="element__title"></h2>
+      <div className="element__like-container">
+        <button className="element__like" aria-label="Лайк" type="button"></button>
+        <p className="element__like-count"></p>
       </div>
     </div>
-  </template>
+  </div>
 </>
 
   );

@@ -12,7 +12,7 @@ function Card(props) {
       <div className="element__text-container">
         <h2 className="element__title">{props.card.title}</h2>
         <div className="element__like-container">
-          <button className="element__like" aria-label="Лайк" type="button"></button>
+          <button className="element__like" aria-label="Лайк" type="button" />
           <p className="element__like-count">{props.card.likes}</p>
         </div>
       </div>
