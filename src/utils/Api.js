@@ -55,6 +55,7 @@
     }).then(this._handleServerResponse);
   }
 
+
   _addLike(id) {
     return fetch(`${this._link}/cards/${id}/likes`, {
       method: "PUT",
@@ -69,9 +70,12 @@
     }).then(this._handleServerResponse);
   }
 
-  likeCard({ cardId, isLiked }) {
-    return isLiked ? this._removeLike(cardId) : this._addLike(cardId);
+  changeLikeCardStatus(id, isLiked) {
+
+    return isLiked ? this._removeLike(id) : this._addLike(id);
   }
+
+
 
   changeAvatar(avatar) {
     return fetch(`${this._link}/users/me/avatar`, {
