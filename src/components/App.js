@@ -8,6 +8,7 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 
 function App() {
 
@@ -36,7 +37,7 @@ function App() {
        setCards(data)
       })
       .catch((error) => {
-        console.log('Error fetching cards:', error);
+        console.log('Ошибка при загрузке карточек:', error);
       });
   }, []);
 
@@ -50,9 +51,28 @@ function App() {
     }).catch((error) => console.error(`Ошибка при клике на лайк : ${error}`))
 }
 
-function handleUpdateUser() {
-  api.changeProfile(currentUser)
+function handleUpdateUser({name, about}) {
+  api.changeProfile({name, about})
+    .then(newInfo => {
+      setСurrentUser(newInfo);
+      closeAllPopups();
+    })
+    .catch(error => {
+      console.log('Ошибка при обновлении данных пользователя:', error);
+    });
 }
+
+
+  function handleUpdateAvatar(avatar){
+    api.changeAvatar(avatar)
+    .then(data => {
+      setСurrentUser(data);
+      closeAllPopups();
+    })
+    .catch(error => {
+      console.log('Ошибка при обновлении аватара:', error);
+    });
+  }
 
   function handleCardClick(card) {
     setselectedCard(card);
@@ -105,18 +125,8 @@ function handleUpdateUser() {
               required type="url" />
             <span className="popup__input-error link-input-error"></span>
       </PopupWithForm>
-      <PopupWithForm
-        name="avatar"
-        title="Обновить аватар"
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}>
-              <input
-                placeholder="Ссылка на картинку"
-                name="link"
-                required type="url"
-                className="popup__input popup-avatar__input" />
-              <span className="popup__input-error link-input-error"></span>
-      </PopupWithForm>
+      <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+
 
       <ImagePopup onOpenPopupWithImage={handleCardClick} onClose={closeAllPopups} isOpen={selectedCard}/>
 

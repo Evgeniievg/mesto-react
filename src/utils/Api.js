@@ -77,16 +77,17 @@
 
 
 
-  changeAvatar(avatar) {
+  changeAvatar(data) {
+    console.log(data)
     return fetch(`${this._link}/users/me/avatar`, {
       method: "PATCH",
       body: JSON.stringify({
-        avatar,
+        avatar: data.avatar,
       }),
       headers: this._headers,
     }).then(this._handleServerResponse);
   }
-}
+ }
 
 const api = new Api({
   link: link,
