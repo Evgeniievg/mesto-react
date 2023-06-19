@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import '../index.css';
 import { Header } from './Header';
 import Main from './Main';
-import api from '../utils/Api';
+import api from '../utils/api';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import PopupWithForm from './PopupWithForm';
 
 function App() {
 
@@ -18,7 +19,6 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setselectedCard] = useState(null);
 
-
   useEffect(() => {
     api.getUserInfo()
       .then((userInfo) => {
@@ -27,22 +27,17 @@ function App() {
       .catch((error) => {
         console.log('Error fetching user info:', error);
       });
+    api.fetchCards(cards).then((data) => {
+      setCards(data)
+      }).catch((error) => {
+         console.log('Ошибка при загрузке карточек:', error);
+       });
   }, []);
 
   const [cards, setCards] = useState([])
 
-  useEffect(() => {
-    api.fetchCards(cards).then((data) => {
-       setCards(data)
-      })
-      .catch((error) => {
-        console.log('Ошибка при загрузке карточек:', error);
-      });
-  }, []);
-
-
-
   function handleCardLike(card) {
+
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
     api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
@@ -121,23 +116,38 @@ function handleUpdateUser({name, about}) {
     <CurrentUserContext.Provider value={ currentUser }>
 
       <div className="page">
-      <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
 
-      <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+      <EditProfilePopup
+        isOpen={isEditProfilePopupOpen}
+        onUpdateUser={handleUpdateUser}
+        onClose={closeAllPopups}
+      />
 
-      <AddPlacePopup onAddPlace={handleAddPlaceSubmit} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
+      <EditAvatarPopup
+        onUpdateAvatar={handleUpdateAvatar}
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+      />
 
-      <ImagePopup onOpenPopupWithImage={handleCardClick} onClose={closeAllPopups} isOpen={selectedCard}/>
+      <AddPlacePopup
+        onAddPlace={handleAddPlaceSubmit}
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+      />
 
-        <div className="popup popup-delete">
-          <div className="popup__container">
-            <button aria-label="Закрыть" type="button" className="popup__close"></button>
-            <h3 className="popup__title">Вы уверены?</h3>
-            <form name="form" className="popup__form">
-              <button type="submit" className="popup__button">Да</button>
-            </form>
-          </div>
-        </div>
+      <ImagePopup
+        onOpenPopupWithImage={handleCardClick}
+        onClose={closeAllPopups}
+        isOpen={selectedCard}
+      />
+
+      <PopupWithForm
+        onClose={closeAllPopups}
+        name="delete"
+        title="Вы уверены?"
+      />
+
+
         <div className="page__wrapper">
           <Header />
           <Main
@@ -151,17 +161,6 @@ function handleUpdateUser({name, about}) {
           />
           <Footer />
 
-        </div>
-      </div>
-      <div className="element">
-        <button className="element__delete" type="button" aria-label="Удалить"></button>
-        <img className="element__image" />
-        <div className="element__text-container">
-          <h2 className="element__title"></h2>
-          <div className="element__like-container">
-            <button className="element__like" aria-label="Лайк" type="button"></button>
-            <p className="element__like-count"></p>
-          </div>
         </div>
       </div>
     </ CurrentUserContext.Provider>

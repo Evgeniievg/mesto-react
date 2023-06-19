@@ -17,7 +17,7 @@ export default function EditProfilePopup(props) {
       setDescription(currentUser.about || '');
     }
 
-  }, [currentUser]);
+  }, [currentUser, props.isOpen]);
 
 
   function handleChangeName(e) {
@@ -73,7 +73,7 @@ export default function EditProfilePopup(props) {
               required minLength="2"
               maxLength="200" />
             <span className="popup__input-error about-input-error"></span>
-          </PopupWithForm>
+      </PopupWithForm>
     </>
   )
 }
