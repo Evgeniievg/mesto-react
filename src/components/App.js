@@ -25,7 +25,7 @@ function App() {
         setСurrentUser(userInfo)
       })
       .catch((error) => {
-        console.log('Error fetching user info:', error);
+        console.log('Ошибка при загрузке данных пользователя:', error);
       });
     api.fetchCards(cards).then((data) => {
       setCards(data)
