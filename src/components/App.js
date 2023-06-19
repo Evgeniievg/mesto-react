@@ -114,42 +114,41 @@ function handleUpdateUser({name, about}) {
 
   return (
     <CurrentUserContext.Provider value={ currentUser }>
-
       <div className="page">
 
-      <EditProfilePopup
-        isOpen={isEditProfilePopupOpen}
-        onUpdateUser={handleUpdateUser}
-        onClose={closeAllPopups}
-      />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onUpdateUser={handleUpdateUser}
+          onClose={closeAllPopups}
+        />
 
-      <EditAvatarPopup
-        onUpdateAvatar={handleUpdateAvatar}
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-      />
+        <EditAvatarPopup
+          onUpdateAvatar={handleUpdateAvatar}
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+        />
 
-      <AddPlacePopup
-        onAddPlace={handleAddPlaceSubmit}
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-      />
+        <AddPlacePopup
+          onAddPlace={handleAddPlaceSubmit}
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+        />
 
-      <ImagePopup
-        onOpenPopupWithImage={handleCardClick}
-        onClose={closeAllPopups}
-        isOpen={selectedCard}
-      />
+        <ImagePopup
+          onOpenPopupWithImage={handleCardClick}
+          onClose={closeAllPopups}
+          isOpen={selectedCard}
+        />
 
-      <PopupWithForm
-        onClose={closeAllPopups}
-        name="delete"
-        title="Вы уверены?"
-      />
-
+        <PopupWithForm
+          onClose={closeAllPopups}
+          name="delete"
+          title="Вы уверены?"
+        />
 
         <div className="page__wrapper">
           <Header />
+
           <Main
             cards={cards}
             onEditProfile={handleEditProfileClick}
