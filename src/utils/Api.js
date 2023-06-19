@@ -38,7 +38,6 @@
   }
 
   createCard({ name, link }) {
-    console.log({name, link})
     return fetch(`${this._link}/cards`, {
       method: "POST",
       headers: this._headers,
@@ -48,8 +47,6 @@
       }),
     }).then(this._handleServerResponse);
   }
-
-
 
 
   deleteCard(id) {

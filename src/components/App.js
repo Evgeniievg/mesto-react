@@ -52,7 +52,7 @@ function App() {
 
 function handleCardDelete(card){
   api.deleteCard(card._id).then(() => {
-    setCards((item) => item.filter((c) => c._id !== card._id))
+    setCards((cards) => cards.filter((c) => c._id !== card._id))
   }).catch(error => {
     console.log('Ошибка при удалении карточки:', error);
   });
@@ -82,7 +82,6 @@ function handleUpdateUser({name, about}) {
   }
 
   function handleAddPlaceSubmit({name, link}){
-    console.log({name, link})
     api.createCard({name, link}).then(newCard => {
       setCards([newCard, ...cards]);
       closeAllPopups();
