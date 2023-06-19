@@ -6,14 +6,19 @@ export default function EditProfilePopup(props) {
 
   const currentUser = React.useContext(CurrentUserContext);
 
-  useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-  }, [currentUser]);
-
-
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+
+
+
+  useEffect(() => {
+    if(currentUser) {
+      setName(currentUser.name || '');
+      setDescription(currentUser.about || '');
+    }
+
+  }, [currentUser]);
+
 
   function handleChangeName(e) {
     setName(e.target.value);
@@ -30,6 +35,12 @@ export default function EditProfilePopup(props) {
       about: description,
     });
   }
+
+
+  if (!currentUser) {
+    return null;
+  }
+
 
   return (
     <>
