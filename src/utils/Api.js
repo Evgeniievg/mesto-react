@@ -38,15 +38,19 @@
   }
 
   createCard({ name, link }) {
+    console.log({name, link})
     return fetch(`${this._link}/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
         name,
-        link,
+        link
       }),
     }).then(this._handleServerResponse);
   }
+
+
+
 
   deleteCard(id) {
     return fetch(`${this._link}/cards/${id}`, {

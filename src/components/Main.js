@@ -25,7 +25,7 @@ function Main(props) {
         </section>
         <section className="elements">
           {props.cards.map((card) => (
-            <Card key={card._id} card={card} onLikeClick={props.onCardLike} onOpenPopupWithImage={props.onCardClick} />
+            <Card key={card._id} card={card} onDeleteClick={props.onCardDelete} onLikeClick={props.onCardLike} onOpenPopupWithImage={props.onCardClick} />
       ))}
         </section>
       </main>

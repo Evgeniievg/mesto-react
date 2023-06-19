@@ -4,11 +4,11 @@ import { Header } from './Header';
 import Main from './Main';
 import api from '../utils/Api';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 
 function App() {
 
@@ -33,7 +33,6 @@ function App() {
 
   useEffect(() => {
     api.fetchCards(cards).then((data) => {
-      console.log(data)
        setCards(data)
       })
       .catch((error) => {
@@ -49,6 +48,14 @@ function App() {
     api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
       setCards(state => state.map(c => (c._id === card._id ? newCard : c)));
     }).catch((error) => console.error(`Ошибка при клике на лайк : ${error}`))
+}
+
+function handleCardDelete(card){
+  api.deleteCard(card._id).then(() => {
+    setCards((item) => item.filter((c) => c._id !== card._id))
+  }).catch(error => {
+    console.log('Ошибка при удалении карточки:', error);
+  });
 }
 
 function handleUpdateUser({name, about}) {
@@ -74,9 +81,21 @@ function handleUpdateUser({name, about}) {
     });
   }
 
+  function handleAddPlaceSubmit({name, link}){
+    console.log({name, link})
+    api.createCard({name, link}).then(newCard => {
+      setCards([newCard, ...cards]);
+      closeAllPopups();
+    }).catch(error => {
+      console.log('Ошибка при добавлении карточки:', error);
+    });
+  }
+
   function handleCardClick(card) {
     setselectedCard(card);
   }
+
+
 
 
   function handleEditAvatarClick() {
@@ -104,29 +123,10 @@ function handleUpdateUser({name, about}) {
 
       <div className="page">
       <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
-      <PopupWithForm
-        name="element"
-        title="Новое место"
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}>
-            <input
-              type="text"
-              id="title-input"
-              className="popup-element__input popup-element__input_type_title popup__input popup__input_type_title"
-              name="name"
-              placeholder="Название"
-              required minLength="2"
-              maxLength="30" />
-            <span className="popup__input-error name-input-error"></span>
-            <input
-              id="link-input"
-              className="popup-element__input popup-element__input_type_description popup__input popup__input_type_description"
-              name="link" placeholder="Ссылка на картинку"
-              required type="url" />
-            <span className="popup__input-error link-input-error"></span>
-      </PopupWithForm>
+
       <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
 
+      <AddPlacePopup onAddPlace={handleAddPlaceSubmit} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
 
       <ImagePopup onOpenPopupWithImage={handleCardClick} onClose={closeAllPopups} isOpen={selectedCard}/>
 
@@ -148,6 +148,7 @@ function handleUpdateUser({name, about}) {
             onEditAvatar={handleEditAvatarClick}
             onCardClick={handleCardClick}
             onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
           />
           <Footer />
 
