@@ -76,8 +76,6 @@
     return isLiked ? this._removeLike(id) : this._addLike(id);
   }
 
-
-
   changeAvatar(data) {
     console.log(data)
     return fetch(`${this._link}/users/me/avatar`, {
