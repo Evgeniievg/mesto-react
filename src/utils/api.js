@@ -77,7 +77,6 @@
   }
 
   changeAvatar(data) {
-    console.log(data)
     return fetch(`${this._link}/users/me/avatar`, {
       method: "PATCH",
       body: JSON.stringify({
