@@ -19,7 +19,6 @@ export default function AddPlacePopup(props) {
   }
 
   return (
-    <div>
       <PopupWithForm
         name="element"
         title="Новое место"
@@ -45,6 +44,5 @@ export default function AddPlacePopup(props) {
               required type="url" />
             <span className="popup__input-error link-input-error"></span>
       </PopupWithForm>
-    </div>
   )
 }
